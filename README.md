@@ -1,4 +1,4 @@
-### Changed in this fork:
+# Changed in this fork:
 
 1. Added functions to the code to automatically add the `?lang=` parameter to all internal links, which preserves the selected language when navigating the site. Also added `addLangToUrlIfNeeded` function, which checks if the `?lang=` parameter is present in the URL and automatically adds it if it is missing. These changes allow you to preserve the user's language when navigating through the site pages.
 
