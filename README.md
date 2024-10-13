@@ -1,3 +1,11 @@
+### Changed in this fork:
+
+1. Added functions to the code to automatically add the `?lang=` parameter to all internal links, which preserves the selected language when navigating the site. Also added `addLangToUrlIfNeeded` function, which checks if the `?lang=` parameter is present in the URL and automatically adds it if it is missing. These changes allow you to preserve the user's language when navigating through the site pages.
+
+2. All functions now use the arrow function syntax (const functionName = () => {}).
+
+For an example of the updated translation script, see [here](https://nikonorow.ru/?lang=en) (in the header)
+
 # yandex-translate-custom-widget
 
 ![](https://raw.githubusercontent.com/get-web/Examples/main/yandex-translate-custom-widget/yandex-translate-custom-widget.gif)
@@ -59,20 +67,3 @@ that element from being translated. For example, you may want to do something
 like:
 
 `Email us at <span translate="no">sales at mydomain dot com</span>`
-
-
-### Поддержать проект:
-
-Данная модификация предоставляется абсолютно бесплатно, поэтому вы можете
-отправить **благодарность по реквизитам**:
-
-- Visa (usd) - 4149629331519363
-- Visa (uah) - 4731185620908514
-- Binance pay id: 463795904
-- USDT trc-20: TUDPzTVicb51L6sH1KyDVxNx6TJrncN5X7
-- Карта МИР: 2204120117672887
-- https://yoomoney.ru/to/410018011293312
-
-_Любая ваша поддержка это мотивация выкладывать в общий доступ другие наработки
-и поддерживать их._
-
