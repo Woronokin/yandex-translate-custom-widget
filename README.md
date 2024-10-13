@@ -4,9 +4,11 @@
 
 2. All functions now use the arrow function syntax (const functionName = () => {}).
 
+3. Change main translation language icon to new purple svg-icon
+
 For an example of the updated translation script, see [here](https://nikonorow.ru/?lang=en) (in the header)
 
-# yandex-translate-custom-widget
+# yandex-translate-custom-widget 2.0
 
 ![](https://raw.githubusercontent.com/get-web/Examples/main/yandex-translate-custom-widget/yandex-translate-custom-widget.gif)
 
