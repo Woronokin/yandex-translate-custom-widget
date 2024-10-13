@@ -59,7 +59,9 @@ All available languages and their code can be found [here](https://yandex.ru/dev
 
 ### Example
 
-[Demo Page](http://demo.l2banners.ru/yandex-translate-custom-widget)
+[OLD Demo Page](http://demo.l2banners.ru/yandex-translate-custom-widget)
+
+[New Example Page](http://demo.l2banners.ru/yandex-translate-custom-widget) - see in the site header
 
 ## More
 
