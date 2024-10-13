@@ -1,79 +1,110 @@
 /*!***************************************************
- * yatranslate.js v1.0.0
+ * yatranslate.js v2.0.0
  * https://Get-Web.Site/
- * author: Vitalii P.
+ * author of update: Nikonorov Filipp (@woronokin)
+ * author of project: Vitalii P. (@get-web)
  *****************************************************/
 
-const yatranslate = {
+const yaTr = {
     /* Original language */
     lang: "ru",
     /* The language we translate into on the first visit */
-    /* Язык, на который переводим при первом посещении */
     // langFirstVisit: 'en',
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Start
-    yaTranslateInit();
-})
+document.addEventListener('DOMContentLoaded', () => {
+    yaTrInit();
+    addLangToLinks();
+    addLangToUrlIfNeeded(); // Проверка URL и добавление параметра, если нужно
+});
 
-function yaTranslateInit() {
+const addLangToLinks = () => {
+    const currentLang = yaTrGetCode();
+    const links = document.querySelectorAll('a[href^="/"]'); // выбираем все внутренние ссылки
+    links.forEach(link => {
+        const url = new URL(link.href, window.location.origin);
+        url.searchParams.set('lang', currentLang);
+        link.href = url.toString();
+    });
+};
 
-    if (yatranslate.langFirstVisit && !localStorage.getItem('yt-widget')) {
-        /* Если установлен язык перевода для первого посещения и в localStorage нет yt-widget */
-        /* If the translation language is installed for the first visit and in localStorage no yt-widget */
-        yaTranslateSetLang(yatranslate.langFirstVisit);
+const addLangToUrlIfNeeded = () => {
+    const currentLang = yaTrGetCode();
+    const url = new URL(window.location);
+    if (!url.searchParams.get('lang')) {
+        url.searchParams.set('lang', currentLang);
+        history.replaceState(null, '', url.toString());
+    }
+};
+
+const yaTrInit = () => {
+    // Check for language in URL parameter
+    const urlLang = getLangFromUrl();
+    if (urlLang) {
+        yaTrSetLang(urlLang);
+    } else if (yaTr.langFirstVisit && !localStorage.getItem('yt-widget')) {
+        yaTrSetLang(yaTr.langFirstVisit);
     }
 
-    // Подключаем виджет yandex translate
-    // Connecting the yandex translate widget
-    let script = document.createElement('script');
-    script.src = `https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=${yatranslate.lang}&widgetTheme=light&autoMode=false`;
+    // Load Yandex Translate widget
+    const script = document.createElement('script');
+    script.src = `https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=${yaTr.lang}&widgetTheme=light&autoMode=false`;
     document.getElementsByTagName('head')[0].appendChild(script);
 
-    // Получаем и записываем язык на который переводим
-    // We get and write down the language into which we translate
-    let code = yaTranslateGetCode();
+    // Display the current language in the menu
+    const code = yaTrGetCode();
+    yaTrHtmlHandler(code);
 
-    // Показываем текущий язык в меню
-    // Show the current language in the menu
-    yaTranslateHtmlHandler(code);
-
-    // Вешаем событие клик на флаги
-    // We hang the event click on the flags
-    yaTranslateEventHandler('click', '[data-ya-lang]', function (el) {
-        yaTranslateSetLang(el.getAttribute('data-ya-lang'));
-        // Перезагружаем страницу
-        // Reloading the page
+    // Attach click events for language selection
+    yaTrEventHandler('click', '[data-ya-lang]', el => {
+        const selectedLang = el.getAttribute('data-ya-lang');
+        yaTrSetLang(selectedLang);
+        updateUrlLang(selectedLang);
         window.location.reload();
-    })
-}
+    });
+};
 
-function yaTranslateSetLang(lang) {
-    // Записываем выбранный язык в localStorage объект yt-widget 
-    // Writing the selected language to localStorage 
+const yaTrSetLang = (lang) => {
+    // Save the selected language to localStorage 
     localStorage.setItem('yt-widget', JSON.stringify({
         "lang": lang,
         "active": true
     }));
-}
+};
 
-function yaTranslateGetCode() {
-    // Возвращаем язык на который переводим
-    // Returning the language to which we are translating
-    return (localStorage["yt-widget"] != undefined && JSON.parse(localStorage["yt-widget"]).lang != undefined) ? JSON.parse(localStorage["yt-widget"]).lang : yatranslate.lang;
-}
+const yaTrGetCode = () => {
+    // Return the language to which we are translating
+    return (localStorage["yt-widget"] != undefined && JSON.parse(localStorage["yt-widget"]).lang != undefined) ? JSON.parse(localStorage["yt-widget"]).lang : yaTr.lang;
+};
 
-function yaTranslateHtmlHandler(code) {
-    // Получаем язык на который переводим и производим необходимые манипуляции с DOM
-    // We get the language to which we translate and produce the necessary manipulations with DOM 
-    document.querySelector('[data-lang-active]').innerHTML = `<img class="lang__img lang__img_select" src="./images/lang/lang__${code}.png" alt="${code}">`;
+const yaTrHtmlHandler = (code) => {
+    // Update language display in the menu
+    document.querySelector('[data-lang-active]').innerHTML = `<svg class="lang__img lang__img_select" data-ya-lang="ru" fill="none" width="37px" height="37px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" alt="ru">
+        <path d="M7.5 6.5H20a1 1 0 011 1V20a1 1 0 01-1 1h-7L7.5 6.5z" fill="#fff" />
+        <path d="M13.416 17.427l-.458-.888.444-.23c.031-.015 3.051-1.604 4.522-4.552l.223-.447.895.447-.224.447c-1.62 3.248-4.822 4.925-4.958 4.994l-.444.229z" fill="#262626" />
+        <path d="M19.01 17l-.436-.245c-.103-.058-2.546-1.45-4.248-3.833l.814-.582c1.57 2.197 3.902 3.531 3.925 3.544l.435.246-.49.87zM13 11h7v1h-7v-1z" fill="#262626" />
+        <path d="M16 10h1v2h-1v-2z" fill="#262626" />
+        <path d="M16.5 17.5H4a1 1 0 01-1-1V4a1 1 0 011-1h7l5.5 14.5z" fill="#8B3FFD" />
+        <path d="M13 21l-1.5-3.5h5L13 21z" fill="#4f2391e8" />
+        <path d="M9.586 12h-2.18l-.504 1.5H5.5L7.882 7h1.222l2.396 6.5h-1.402L9.585 12zm-1.864-1h1.55l-.779-2.357L7.722 11z" fill="#fff" />
+    </svg> <span alt="${code}">${code}</span>`;
     document.querySelector(`[data-ya-lang="${code}"]`).remove();
-}
+};
 
-function yaTranslateEventHandler(event, selector, handler) {
-    document.addEventListener(event, function (e) {
-        let el = e.target.closest(selector);
+const yaTrEventHandler = (event, selector, handler) => {
+    document.addEventListener(event, (e) => {
+        const el = e.target.closest(selector);
         if (el) handler(el);
     });
-}
+};
+
+const updateUrlLang = (lang) => {
+    const url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url.toString());
+};
+
+const getLangFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('lang');
+};
