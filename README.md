@@ -1,3 +1,7 @@
+# yandex-translate-custom-widget 2.0
+
+![](https://raw.githubusercontent.com/get-web/Examples/main/yandex-translate-custom-widget/yandex-translate-custom-widget.gif)
+
 # Changed in this fork:
 
 1. Added functions to the code to automatically add the `?lang=` parameter to all internal links, which preserves the selected language when navigating the site. Also added `addLangToUrlIfNeeded` function, which checks if the `?lang=` parameter is present in the URL and automatically adds it if it is missing. These changes allow you to preserve the user's language when navigating through the site pages.
@@ -6,11 +10,7 @@
 
 3. Change main translation language icon to new purple svg-icon
 
-For an example of the updated translation script, see [here](https://nikonorow.ru/?lang=en) (in the header)
-
-# yandex-translate-custom-widget 2.0
-
-![](https://raw.githubusercontent.com/get-web/Examples/main/yandex-translate-custom-widget/yandex-translate-custom-widget.gif)
+**For an example of the updated translation script, see [here](https://nikonorow.ru/?lang=en) (in the header)**
 
 # Install:
 
@@ -59,9 +59,9 @@ All available languages and their code can be found [here](https://yandex.ru/dev
 
 ### Example
 
-[OLD Demo Page](http://demo.l2banners.ru/yandex-translate-custom-widget)
+[OLD Demo Page](http://demo.l2banners.ru/yandex-translate-custom-widget) (in project css-style)
 
-[New Example Page](http://demo.l2banners.ru/yandex-translate-custom-widget) - see in the site header
+[New Example Page](http://demo.l2banners.ru/yandex-translate-custom-widget) - see in the site header (in another css-style)
 
 ## More
 
