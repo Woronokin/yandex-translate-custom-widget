@@ -61,7 +61,7 @@ All available languages and their code can be found [here](https://yandex.ru/dev
 
 [OLD Demo Page](http://demo.l2banners.ru/yandex-translate-custom-widget) (in project css-style)
 
-[New Example Page](http://demo.l2banners.ru/yandex-translate-custom-widget) - see in the site header (in another css-style)
+[New Example Page](https://nikonorow.ru?lang=en) - see in the site header (in another css-style)
 
 ## More
 
