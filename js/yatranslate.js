@@ -1,6 +1,6 @@
 /*!***************************************************
  * yatranslate.js v2.0.0
- * https://Get-Web.Site/
+ * https://nikonorow.ru/
  * author of update: Nikonorov Filipp (@woronokin)
  * author of project: Vitalii P. (@get-web)
  *****************************************************/
@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const addLangToLinks = () => {
     const currentLang = yaTrGetCode();
+    if (currentLang === yaTr.lang) return; // Не добавляем параметр, если язык - по умолчанию
+
     const links = document.querySelectorAll('a[href^="/"]'); // выбираем все внутренние ссылки
     links.forEach(link => {
         const url = new URL(link.href, window.location.origin);
@@ -31,7 +33,13 @@ const addLangToLinks = () => {
 const addLangToUrlIfNeeded = () => {
     const currentLang = yaTrGetCode();
     const url = new URL(window.location);
-    if (!url.searchParams.get('lang')) {
+
+    if (currentLang === yaTr.lang) {
+        // Если язык по умолчанию, убираем параметр из URL (если есть)
+        url.searchParams.delete('lang');
+        history.replaceState(null, '', url.toString());
+    } else if (!url.searchParams.get('lang')) {
+        // Добавляем параметр, если его нет и язык отличается от по умолчанию
         url.searchParams.set('lang', currentLang);
         history.replaceState(null, '', url.toString());
     }
